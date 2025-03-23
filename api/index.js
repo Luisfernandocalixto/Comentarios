@@ -17,17 +17,17 @@ const io = new Server(server, {
     connectionStateRecovery: {}
 })
 
-async function db() {
-    await pool.query(`
-       CREATE TABLE IF NOT EXISTS messages (
-           id INTEGER PRIMARY KEY AUTO_INCREMENT,
-           content TEXT,
-           user TEXT 
-       )
-       `);
-}
+// async function db() {
+//     await pool.query(`
+//        CREATE TABLE IF NOT EXISTS messages (
+//            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+//            content TEXT,
+//            user TEXT 
+//        )
+//        `);
+// }
 
-db();
+// db();
 
 
 
