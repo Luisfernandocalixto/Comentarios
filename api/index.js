@@ -5,29 +5,20 @@ require('dotenv').config();
 const  pool = require("./config/db.js");
 const { Server } = require("socket.io");
 const { createServer } = require("node:http");
+const { insertMessage, getMessages } = require("./data/message.js");
+const {  validatePartialMessage } = require("./verify/verify.js");
 
 const port = process.env.PORT
 
 const app = express();
-
-app.use(express.static(path.join(__dirname, '../public')));
+// static files
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 const server = createServer(app)
 const io = new Server(server, {
     connectionStateRecovery: {}
 })
 
-// async function db() {
-//     await pool.query(`
-//        CREATE TABLE IF NOT EXISTS messages (
-//            id INTEGER PRIMARY KEY AUTO_INCREMENT,
-//            content TEXT,
-//            user TEXT 
-//        )
-//        `);
-// }
-
-// db();
 
 
 
@@ -42,14 +33,20 @@ io.on("connection", async (socket) => {
     socket.on("chat message", async (msg) => {
         let result
         const username = socket.handshake.auth.username ?? 'anonymous'
-        console.log({ username });
         try {
-            if (!msg || msg.trim() === '') return
-            result = await pool.query('INSERT INTO messages (content, user) VALUES (? , ?)', [msg, username])
+            const verify =  validatePartialMessage({ msg: msg})
+            if (!verify.success) {
+                
+            return
+            }
+            else{
+                result = await pool.query(insertMessage, [msg, username])
+            }
         } catch (e) {
             console.error(e);
             return
         }
+                
 
         io.emit("chat message", msg, result, username);
     })
@@ -58,7 +55,7 @@ io.on("connection", async (socket) => {
 
     if (!socket.recovered) { // <- recuperar los mensajes sin conexion
         try {
-            const result = await pool.query('SELECT id, content, user FROM messages WHERE id > ?',[socket.handshake.auth.serverOffset ?? 0])
+            const result = await pool.query(getMessages,[socket.handshake.auth.serverOffset ?? 0])
 
             result.forEach(row => {
                 socket.emit('chat message', row.content, row.id.toString(), row.user)
