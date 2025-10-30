@@ -10,17 +10,16 @@
     <meta property="og:description" content="Increible noche, ¿Qué te parece? Agrega un comentario">
     <meta name="description" content="Increible noche, ¿Qué te parece? Agrega un comentario">
     <title>Comentarios</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="./public/css/main.css">
     <link rel="shortcut icon" href="/image/videoframe.webp" type="image/x-icon">
     <script type="module" src="/js/main.js"></script>
 </head>
 
 <body>
     <div class="contentVideo">
-        <video src="/video/noche.mp4" autoplay loop muted></video>
+        <video src="/public/video/noche.mp4" autoplay loop muted></video>
     </div>
     <section class="chat">
-        <button type="button" name="button" aria-label="show message" class="showMessage">Mostrar comentarios</button>
         <ul id="messages" class="isShow">
         </ul>
         <form id="form" class="isShow">
@@ -28,7 +27,18 @@
             <button type="submit">Enviar</button>
 
         </form>
+        <details>
+            <summary>Mostrar comentarios</summary>
+            <ul id="messages">
+            </ul>
+            <form id="form">
+                <input type="text" name="message" id="input" placeholder="Escribe un comentario" autocomplete="off">
+                <button type="submit">Enviar</button>
+
+            </form>
+        </details>
     </section>
+<script type="module" src="/public/js/main.js"></script>
 </body>
 
 </html>

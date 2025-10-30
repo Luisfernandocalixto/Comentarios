@@ -23,10 +23,10 @@ const io = new Server(server, {
 
 
 io.on("connection", async (socket) => {
-    console.log('a user has connected');
+    // console.log('a user has connected');
 
     socket.on("disconnect", () => {
-        console.log("an user has disconnected");
+        // console.log("an user has disconnected");
 
     })
 
@@ -43,7 +43,7 @@ io.on("connection", async (socket) => {
                 result = await pool.query(insertMessage, [msg, username])
             }
         } catch (e) {
-            console.error(e);
+            // console.error(e);
             return
         }
                 
@@ -61,7 +61,7 @@ io.on("connection", async (socket) => {
                 socket.emit('chat message', row.content, row.id.toString(), row.user)
             })
         } catch (e) {
-            console.error(e);
+            // console.error(e);
         }
     }
 })
