@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-const { promisify } = require('util');
+const { promisify } = require('node:util');
 
 const { database } = require('./keys.js');
 
