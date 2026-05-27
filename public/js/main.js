@@ -44,7 +44,7 @@ socket.on('chat message', (msg, serverOffset, username) => {
     socket.auth.serverOffset = serverOffset;
     // scroll to bottom of messages
     messages.scrollTop = messages.scrollHeight;
-})
+});
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -59,5 +59,5 @@ form.addEventListener('submit', (e) => {
     }
 
 
-})
+});
 

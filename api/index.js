@@ -7,11 +7,20 @@ const { Server } = require("socket.io");
 const { createServer } = require("node:http");
 const { insertMessage, getMessages } = require("./data/message.js");
 const {  validatePartialMessage } = require("./verify/verify.js");
+const { default: rateLimit } = require('express-rate-limit');
 
 const port = process.env.PORT;
 
 const app = express();
 app.disable('x-powered-by');
+
+const limiter = rateLimit({
+    windowMs: 60* 1000,
+    max: 150,
+    message: 'Request limit exceeded',
+});
+
+app.use(limiter);
 
 // static files
 app.use(express.static(path.join(__dirname, '..', 'public')));
